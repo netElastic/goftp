@@ -727,9 +727,17 @@ func Connect(addr string) (*FTP, error) {
 	var err error
 	var conn net.Conn
 
-	if conn, err = net.Dial("tcp", addr); err != nil {
+	//---------------origin code of the library:github.com/dutchcoders/goftp  v1
+	//if conn, err = net.Dial("tcp", addr); err != nil {
+	//	return nil, err
+	//}
+	//------------------------------
+
+	//---------------changed code
+	if conn, err = net.DialTimeout("tcp", addr, 30 * time.Second); err != nil {
 		return nil, err
 	}
+	//-------------------------------
 
 	writer := bufio.NewWriter(conn)
 	reader := bufio.NewReader(conn)
